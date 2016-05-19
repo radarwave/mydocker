@@ -29,12 +29,6 @@ RUN echo "#!/bin/sh" > /etc/profile.d/java.sh && \
  echo "export JAVA_HOME=/etc/alternatives/java_sdk" >> /etc/profile.d/java.sh && \
  chmod a+x /etc/profile.d/java.sh
 
-
-# install python module 
-RUN pip --retries=50 --timeout=300 install pg8000 simplejson unittest2 pycrypto pyyaml lockfile paramiko psi && \
- pip --retries=50 --timeout=300 install http://darcs.idyll.org/~t/projects/figleaf-0.6.1.tar.gz && \
- pip --retries=50 --timeout=300 install http://sourceforge.net/projects/pychecker/files/pychecker/0.8.19/pychecker-0.8.19.tar.gz/download 
-
 # create user gpadmin since HAWQ cannot run under root
 RUN groupadd -g 1000 gpadmin && \
  useradd -u 1000 -g 1000 gpadmin && \
