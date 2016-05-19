@@ -26,9 +26,7 @@ RUN curl -L "http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-
 
 # Upgrade GCC
 RUN cd /etc/yum.repos.d && curl http://people.centos.org/tru/devtools-2/devtools-2.repo -o devtools-2.repo
-RUN yum install -y devtoolset-2-gcc
-RUN yum install -y devtoolset-2-binutils
-RUN yum install -y devtoolset-2-gcc-c++
+RUN yum install -y devtoolset-2-gcc devtoolset-2-binutils devtoolset-2-gcc-c++ || pwd
 RUN scl enable devtoolset-2 bash
 
 # setup ssh server and keys for root
