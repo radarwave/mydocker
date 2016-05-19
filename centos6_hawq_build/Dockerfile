@@ -19,6 +19,11 @@ RUN yum install -y epel-release && \
  openssh-clients openssh-server bison bison-devel && \
  yum clean all
 
+# Install apache maven
+RUN curl -L "http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo" -o /etc/yum.repos.d/epel-apache-maven.repo && \
+ yum install -y apache-maven && \
+ yum clean all
+
 # setup ssh server and keys for root
 RUN ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa && \
  cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
