@@ -27,7 +27,8 @@ RUN curl -L "http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-
 # Upgrade GCC
 RUN cd /etc/yum.repos.d && curl http://people.centos.org/tru/devtools-2/devtools-2.repo -o devtools-2.repo
 RUN yum install -y devtoolset-2-gcc devtoolset-2-binutils devtoolset-2-gcc-c++ || pwd
-RUN scl enable devtoolset-2 bash
+RUN scl enable devtoolset-2 bash && gcc --version
+RUN echo "source /opt/rh/devtoolset-2/enable" >> /root/.bashrc
 
 # setup ssh server and keys for root
 RUN ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa && \
@@ -56,6 +57,7 @@ RUN mkdir -p /data && chmod 777 /data
 
 USER gpadmin
 
+RUN echo "source /opt/rh/devtoolset-2/enable" >> ~/.bashrc
 # setup ssh client keys for gpadmin
 RUN ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa && \
  cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
