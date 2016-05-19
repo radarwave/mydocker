@@ -24,6 +24,12 @@ RUN curl -L "http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-
  yum install -y apache-maven && \
  yum clean all
 
+# Upgrade GCC
+RUN cd /etc/yum.repos.d && \
+ curl http://people.centos.org/tru/devtools-2/devtools-2.repo -o devtools-2.repo && \
+ yum install -y devtoolset-2-gcc devtoolset-2-binutils devtoolset-2-gcc-c++ && \
+ scl enable devtoolset-2 bash
+
 # setup ssh server and keys for root
 RUN ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa && \
  cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
