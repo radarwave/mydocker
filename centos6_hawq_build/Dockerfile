@@ -6,8 +6,6 @@ MAINTAINER Zhanwei Wang <wangzw@wangzw.org>
 RUN sed -i 's/tsflags=nodocs//g' /etc/yum.conf
 
 # install all software we need
-RUN curl http://dist.eng.pivotal.io/dist/HAWQ/yum_repos/hawq-deps.repo -o /etc/yum.repos.d/hawq-deps.repo
-
 RUN yum install -y epel-release && \
  yum makecache && \
  yum install -y man passwd sudo tar which git mlocate links make bzip2 \
@@ -18,8 +16,7 @@ RUN yum install -y epel-release && \
  openldap-devel readline-devel net-snmp-devel apr-devel \
  libesmtp-devel xerces-c-devel python-pip json-c-devel \
  apache-ivy java-1.7.0-openjdk-devel \
- openssh-clients openssh-server bison bison-devel \
- thrift boost curl protobuf apache-maven && \
+ openssh-clients openssh-server bison bison-devel && \
  yum clean all
 
 # setup ssh server and keys for root
