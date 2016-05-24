@@ -1,6 +1,6 @@
 FROM centos:6
 
-MAINTAINER Zhanwei Wang <wangzw@wangzw.org>
+MAINTAINER Radar Lei <rlei@pivotal.io>
 
 # install document with yum
 RUN sed -i 's/tsflags=nodocs//g' /etc/yum.conf
@@ -15,9 +15,12 @@ RUN yum install -y epel-release && \
  libyaml-devel libevent-devel bzip2-devel openssl-devel \
  openldap-devel readline-devel net-snmp-devel apr-devel \
  libesmtp-devel xerces-c-devel python-pip json-c-devel \
- apache-ivy java-1.7.0-openjdk-devel \
+ apache-ivy java-1.7.0-openjdk-devel R-core-devel \
  openssh-clients openssh-server bison bison-devel && \
  yum clean all
+
+RUN cd /tmp; curl https://cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz -o cmake-3.1.0-Linux-x86_64.tar.gz && \
+  tar xzvf cmake-3.1.0-Linux-x86_64.tar.gz && cd /tmp/cmake-3.1.0-Linux-x86_64 && sudo cp -rf * /usr/
 
 # Install apache maven
 RUN curl -L "http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo" -o /etc/yum.repos.d/epel-apache-maven.repo && \
@@ -39,6 +42,9 @@ RUN ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa && \
 RUN echo "#!/bin/sh" > /etc/profile.d/java.sh && \
  echo "export JAVA_HOME=/etc/alternatives/java_sdk" >> /etc/profile.d/java.sh && \
  chmod a+x /etc/profile.d/java.sh
+
+# Remove openjdk client folder
+RUN sudo rm -rf /etc/alternatives/java_sdk/jre/lib/amd64/client
 
 # create user gpadmin since HAWQ cannot run under root
 RUN groupadd -g 1000 gpadmin && \
