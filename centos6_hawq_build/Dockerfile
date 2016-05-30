@@ -16,7 +16,7 @@ RUN yum install -y epel-release && \
  openldap-devel readline-devel net-snmp-devel apr-devel \
  libesmtp-devel xerces-c-devel python-pip json-c-devel \
  apache-ivy java-1.7.0-openjdk-devel R-core-devel \
- openssh-clients openssh-server bison bison-devel && \
+ openssh-clients openssh-server bison bison-devel libffi-devel && \
  yum clean all
 
 RUN cd /tmp; curl https://cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz -o cmake-3.1.0-Linux-x86_64.tar.gz && \
@@ -26,6 +26,11 @@ RUN cd /tmp; curl https://cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz -
 RUN curl -L "http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo" -o /etc/yum.repos.d/epel-apache-maven.repo && \
  yum install -y apache-maven && \
  yum clean all
+
+# Install python modules
+RUN pip --retries=50 --timeout=300 install pg8000 simplejson unittest2 pycrypto pyyaml lockfile paramiko psi && \
+  pip --retries=50 --timeout=300 install http://darcs.idyll.org/~t/projects/figleaf-0.6.1.tar.gz && \
+  pip --retries=50 --timeout=300 install http://sourceforge.net/projects/pychecker/files/pychecker/0.8.19/pychecker-0.8.19.tar.gz/download
 
 # Upgrade GCC
 RUN cd /etc/yum.repos.d && curl http://people.centos.org/tru/devtools-2/devtools-2.repo -o devtools-2.repo
