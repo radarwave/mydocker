@@ -63,38 +63,11 @@ RUN echo "#!/bin/bash" > /etc/profile.d/user.sh && \
  echo "export USER=\`whoami\`" >> /etc/profile.d/user.sh && \
  chmod a+x /etc/profile.d/user.sh
 
-RUN echo $'* soft nofile 2900000\n\
-* hard nofile 2900000\n\
-* soft nproc 131072\n\
-* hard nproc 131072\n' \
- >> /etc/security/limits.conf
-
-RUN echo $'kernel.shmmax = 1000000000\n\
-kernel.shmmni = 4096\n\
-kernel.shmall = 4000000000\n\
-kernel.sem = 250 512000 100 2048\n\
-kernel.sysrq = 1\n\
-kernel.core_uses_pid = 1\n\
-kernel.msgmnb = 65536\n\
-kernel.msgmax = 65536\n\
-kernel.msgmni = 2048\n\
-net.ipv4.tcp_syncookies = 0\n\
-net.ipv4.ip_forward = 0\n\
-net.ipv4.conf.default.accept_source_route = 0\n\
-net.ipv4.tcp_tw_recycle = 1\n\
-net.ipv4.tcp_max_syn_backlog = 200000\n\
-net.ipv4.conf.all.arp_filter = 1\n\
-net.ipv4.ip_local_port_range = 1281 65535\n\
-net.core.netdev_max_backlog = 200000\n\
-vm.overcommit_memory = 2\n\
-fs.nr_open = 3000000\n\
-kernel.threads-max = 798720\n\
-kernel.pid_max = 798720\n\
-net.core.rmem_max=2097152\n\
-net.core.wmem_max=2097152\n'\
- > /etc/sysctl.conf
-
-RUN sysctl -p
+RUN echo $'gpadmin soft nofile 2900000\n\
+gpadmin hard nofile 2900000\n\
+gpadmin soft nproc 131072\n\
+gpadmin hard nproc 131072\n' \
+ > /etc/security/limits.d/gpadmin.conf
 
 ENV BASEDIR /data
 RUN mkdir -p /data && chmod 777 /data
