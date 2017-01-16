@@ -5,12 +5,11 @@ MAINTAINER Radar Lei <rlei@pivotal.io>
 # install document with yum
 RUN sed -i 's/tsflags=nodocs//g' /etc/yum.conf
 
-# add yum repo
-RUN curl -L "https://bintray.com/wangzw/rpm/rpm" -o /etc/yum.repos.d/bintray-wangzw-rpm.repo
+# add epel repo
+RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm
 
 # install all software we need
-RUN yum install -y epel-release && \
- yum makecache && \
+RUN yum makecache && \
  yum install -y man passwd sudo tar which git mlocate links make bzip2 \
  autoconf automake libtool m4 gcc gcc-c++ gdb bison flex cmake gperf maven indent \
  libuuid-devel krb5-devel libgsasl-devel expat-devel libxml2-devel \
@@ -22,6 +21,8 @@ RUN yum install -y epel-release && \
  openssh-clients openssh-server && \
  yum clean all
 
+RUN pip --retries=50 --timeout=300 install pycrypto
+
 # setup ssh server and keys for root
 RUN sshd-keygen && \
  ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa && \
@@ -32,12 +33,6 @@ RUN sshd-keygen && \
 RUN echo "#!/bin/sh" > /etc/profile.d/java.sh && \
  echo "export JAVA_HOME=/etc/alternatives/java_sdk" >> /etc/profile.d/java.sh && \
  chmod a+x /etc/profile.d/java.sh
-
-# install libyarn
-RUN mkdir -p /tmp/build && \
- cd /tmp/build && git clone --depth=1 https://github.com/apache/incubator-hawq.git . && cd depends/libyarn && mkdir build && cd build && \
- ../bootstrap --prefix=/usr && make && make install && ldconfig && \
- rm -rf /tmp/build
 
 # create user gpadmin since HAWQ cannot run under root
 RUN groupadd -g 1000 gpadmin && \
