@@ -10,15 +10,15 @@ RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.n
 
 # install all software we need
 RUN yum makecache && \
- yum install -y man passwd sudo tar which git mlocate links make bzip2 \
- autoconf automake libtool m4 gcc gcc-c++ gdb bison flex cmake gperf maven indent \
+ yum install -y man passwd sudo tar which git mlocate links make bzip2 net-tools \
+ autoconf automake libtool m4 gcc gcc-c++ gdb bison flex gperf maven indent \
  libuuid-devel krb5-devel libgsasl-devel expat-devel libxml2-devel \
  perl-ExtUtils-Embed pam-devel python-devel libcurl-devel snappy-devel \
  thrift-devel libyaml-devel libevent-devel bzip2-devel openssl-devel \
  openldap-devel protobuf-devel readline-devel net-snmp-devel apr-devel \
- libesmtp-devel xerces-c-devel python-pip json-c-devel perl-JSON \
- apache-ivy java-1.7.0-openjdk-devel \
- openssh-clients openssh-server && \
+ libesmtp-devel python-pip json-c-devel \
+ java-1.7.0-openjdk-devel lcov cmake\
+ openssh-clients openssh-server perl-JSON && \
  yum clean all
 
 RUN pip --retries=50 --timeout=300 install pycrypto
