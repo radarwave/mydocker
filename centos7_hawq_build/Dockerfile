@@ -16,7 +16,7 @@ RUN yum makecache && \
  perl-ExtUtils-Embed pam-devel python-devel libcurl-devel snappy-devel \
  thrift-devel libyaml-devel libevent-devel bzip2-devel openssl-devel \
  openldap-devel protobuf-devel readline-devel net-snmp-devel apr-devel \
- libesmtp-devel xerces-c-devel python-pip json-c-devel libhdfs3-devel \
+ libesmtp-devel xerces-c-devel python-pip json-c-devel perl-JSON \
  apache-ivy java-1.7.0-openjdk-devel \
  openssh-clients openssh-server && \
  yum clean all
