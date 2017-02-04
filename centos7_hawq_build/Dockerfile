@@ -23,6 +23,16 @@ RUN yum makecache && \
 
 RUN pip --retries=50 --timeout=300 install pycrypto
 
+# Unalias default alias for 'cp, mv, rm'.
+RUN sed -i '/^alias/d' /root/.bashrc
+
+# Install higher version cmake, 3.0+
+RUN mkdir /tmp/cmake; pushd /tmp/cmake ; \
+ curl -O https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.tar.gz; \
+ tar xzvf cmake-3.7.2-Linux-x86_64.tar.gz; \
+ cp -rf cmake-3.7.2-Linux-x86_64/* /usr/ ; \
+ cmake --version; popd;
+
 # setup ssh server and keys for root
 RUN sshd-keygen && \
  ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa && \
