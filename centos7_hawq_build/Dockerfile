@@ -17,7 +17,7 @@ RUN yum makecache && \
  thrift-devel libyaml-devel libevent-devel bzip2-devel openssl-devel \
  openldap-devel protobuf-devel readline-devel net-snmp-devel apr-devel \
  libesmtp-devel python-pip json-c-devel \
- java-1.7.0-openjdk-devel lcov cmake\
+ java-1.7.0-openjdk-devel lcov cmake R-core-devel \
  openssh-clients openssh-server perl-JSON && \
  yum clean all
 
